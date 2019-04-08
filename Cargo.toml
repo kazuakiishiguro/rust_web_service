@@ -1,0 +1,11 @@
+[package]
+name = "rust_web_service"
+version = "0.1.0"
+authors = ["Kazuaki Ishiguro <kazuaki@couger.co.jp>"]
+edition = "2018"
+
+[dependencies]
+rustc-serialize = "*"
+
+[dependencies.iron]
+version = "*"
