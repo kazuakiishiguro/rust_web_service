@@ -3,13 +3,11 @@ extern crate mime;
 extern crate iron;
 extern crate rustc_serialize;
 
-use std::collections::HashMap;
-
 use iron::status;
-use iron::{Handler};
 use iron::headers::ContentType;
 use iron::prelude::*;
 
+use rustc_serialize::base64::FromBase64;
 use rustc_serialize::json;
 
 mod routing;
