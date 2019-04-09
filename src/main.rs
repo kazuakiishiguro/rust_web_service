@@ -1,3 +1,5 @@
+#[macro_use]
+extern crate mime;
 extern crate iron;
 extern crate rustc_serialize;
 
@@ -10,24 +12,12 @@ use iron::prelude::*;
 
 use rustc_serialize::json;
 
+mod routing;
+
 #[derive(RustcEncodable)]
 pub struct Letter {
     title: String,
     message: String
-}
-
-#[derive(Debug)]
-struct Router {
-    routes: HashMap<String, Box<Handler>>
-}
-
-impl Router {
-    fn new() -> Self {
-        Router { routes: HashMap::new() }
-    }
-    fn add_route<H>(&mut self, path: String, handler: H) where H: Handler {
-        self.routes.insert(path, Box::new(handler));
-    }
 }
 
 fn json(_: &mut Request) -> IronResult<Response> {
@@ -39,14 +29,20 @@ fn json(_: &mut Request) -> IronResult<Response> {
     Ok(Response::with((ContentType::json().0, status::Ok, payload)))
 }
 
+fn gif(_: &mut Request) -> IronResult<Response> {
+    let px1 = "R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+    Ok(Response::with((mime!(Image/Gif), status::Ok, px1.from_base64().unwrap())))
+}
+
 fn bad(_: &mut Request) -> IronResult<Response> {
     Ok(Response::with(status::BadRequest))
 }
 
 fn main() {
-    let mut router = Router::new();
+    let mut router = routing::Router::new();
 
     router.add_route("json".to_string(), json);
+    router.add_route("gif".to_string(), gif);
 
     router.add_route("error".to_string(), bad);
 

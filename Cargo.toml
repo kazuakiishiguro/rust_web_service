@@ -4,7 +4,12 @@ version = "0.1.0"
 authors = ["Kazuaki Ishiguro <kazuaki@couger.co.jp>"]
 edition = "2018"
 
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
 [dependencies]
+mime = "*"
 rustc-serialize = "*"
 
 [dependencies.iron]
